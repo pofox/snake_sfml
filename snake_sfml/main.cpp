@@ -54,6 +54,8 @@ int main()
     sf::RenderWindow window(sf::VideoMode(screenw, screenh), "Snake!", sf::Style::Close | sf::Style::Resize);
     window.setFramerateLimit(60);
     
+    sf::FloatRect visibleArea(((int)levelw * (int)cellsize - (int)screenw) / 2, (((int)levelh * (int)cellsize) - (int)screenh) / 2, screenw, screenh);
+    window.setView(sf::View(visibleArea));
     
     std::vector<node> snake;
     float speed = 200.0f; // Snake movement speed per second
@@ -94,10 +96,10 @@ int main()
                 unsigned int windowh = evnt.size.height;
                 int left = 0;
                 int top = 0;
-                sf::Vector2f r = scaleToFit(sf::Vector2f(screenw, screenh), sf::Vector2f(windoww, windowh));
-                left = (1 - windoww / r.x) * screenw / 2;
-                top = (1 - windowh / r.y) * screenh / 2;
-                sf::FloatRect visibleArea(left, top, (screenw * windoww) / r.x, (screenh * windowh) / r.y);
+                sf::Vector2f r = scaleToFit(sf::Vector2f(levelw * cellsize, levelh * cellsize), sf::Vector2f(windoww, windowh));
+                left = (1 - windoww / r.x) * levelw * cellsize / 2;
+                top = (1 - windowh / r.y) * levelh * cellsize / 2;
+                sf::FloatRect visibleArea(left, top, (levelw * cellsize * windoww) / r.x, (levelh * cellsize * windowh) / r.y);
                 window.setView(sf::View(visibleArea));
             }
         }
